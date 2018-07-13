@@ -12,12 +12,12 @@ import com.jogamp.opengl.GL2;
  * @author 5663296
  */
 public class Poligono extends Drawable{
-    int sides = 5;
-    float anguloInterno = 0;
-    float anguloVertice = 0;
-    private float vertices[][];
-    public  float aresta = 0;
     
+    public int sides = 5;
+    public float anguloInterno = 0;
+    public float anguloVertice = 0;
+    public float vertices[][];
+    public float aresta = 0;
     
     public Poligono(int sides, float aresta) {
         x = -0.5f;
@@ -55,24 +55,17 @@ public class Poligono extends Drawable{
     public void scale_rotate(int vertice,float angulo){
         float s = (float) Math.sin(angulo);
         float c = (float) Math.cos(angulo);
-
-
         float xnew = this.vertices[vertice][0] * c - this.vertices[vertice][1] * s;
         float ynew = this.vertices[vertice][0] * s + this.vertices[vertice][1] * c;
-
         this.vertices[vertice][0] = xnew;
-        this.vertices[vertice][1] = ynew;
-        
+        this.vertices[vertice][1] = ynew;    
     }
     
     public void rotate(int vertice,float angulo){
         float s = (float) Math.sin(angulo);
         float c = (float) Math.cos(angulo);
-
-
         float xnew = this.vertices[vertice][0] * c - this.vertices[vertice][1] * s;
         float ynew = this.vertices[vertice][0] * s + this.vertices[vertice][1] * c;
-
         this.vertices[vertice][0] = xnew;
         this.vertices[vertice][1] = ynew;
         this.vertices[vertice][2] += angulo;
@@ -81,13 +74,10 @@ public class Poligono extends Drawable{
     public void rotate(int vertice,float angulo, float x, float y){
         float s = (float) Math.sin(angulo);
         float c = (float) Math.cos(angulo);
-
         this.vertices[vertice][0]-= x;
         this.vertices[vertice][1]-= y;
-        
         float xnew = this.vertices[vertice][0] * c - this.vertices[vertice][1] * s;
         float ynew = this.vertices[vertice][0] * s + this.vertices[vertice][1] * c;
-
         this.vertices[vertice][0] = xnew + x;
         this.vertices[vertice][1] = ynew + y;
         this.vertices[vertice][2] += angulo;
@@ -95,25 +85,19 @@ public class Poligono extends Drawable{
     
     @Override
     public void draw(GL2 gl) {
-        
         gl.glColor3f(1f,1f,1f);
-        
         gl.glBegin(GL2.GL_POLYGON);
         for (int i = 0; i < this.sides; i++) {
             gl.glVertex2f(this.vertices[i][0]+x,this.vertices[i][1]+y);
         }        
         gl.glEnd();
-        gl.glColor3f(1f,1f,0f);
-        
-        gl.glPointSize(2f);
-        gl.glBegin(GL2.GL_POINTS);
-        gl.glVertex2f(0.25f+x,0.25f+y);
-        gl.glEnd();
     }
 
     @Override
     public void rotate(float angle) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0; i < this.sides; i++) {
+            rotate(i, angle);
+        }
     }
     
 }

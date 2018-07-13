@@ -12,22 +12,33 @@ import com.jogamp.opengl.GL2;
  * @author 5663296
  */
 public class Nave extends Drawable{
+
     private float ship[][] = {{0.0f,0.048f }, {0.036f, -0.048f}, {0.0f,-0.036f }, {-0.036f,-0.048f }, {0.0f, 0.048f}};
-    
+    private int sides = 5;
+    private boolean paint = false;
+        
     @Override
     public void draw(GL2 gl){
-        gl.glColor3f(1f,1f,1f);
-        gl.glBegin(GL2.GL_POLYGON);
-        //System.out.println(shipPosition.x);
-        gl.glVertex2f(ship[0][0]+x,ship[0][1]+y);
-        gl.glVertex2f(ship[1][0]+x,ship[1][1]+y);
-        gl.glVertex2f(ship[2][0]+x,ship[2][1]+y);
-        gl.glVertex2f(ship[3][0]+x,ship[3][1]+y);
-        gl.glVertex2f(ship[4][0]+x,ship[4][1]+y);
-        
-        gl.glEnd(); 
-        
-        
+        if(paint){
+            gl.glColor3f(1f,1f,1f);
+            gl.glBegin(GL2.GL_POLYGON);
+            gl.glVertex2f(ship[0][0]+x,ship[0][1]+y);
+            gl.glVertex2f(ship[1][0]+x,ship[1][1]+y);
+            gl.glVertex2f(ship[2][0]+x,ship[2][1]+y);
+            gl.glVertex2f(ship[3][0]+x,ship[3][1]+y);
+            gl.glVertex2f(ship[4][0]+x,ship[4][1]+y);
+            gl.glEnd(); 
+        }else{
+            gl.glColor3f(1f,1f,1f);
+            gl.glBegin(GL2.GL_LINES);
+            gl.glVertex2f(this.ship[sides-1][0]+x,this.ship[sides-1][1]+y);
+            gl.glVertex2f(this.ship[0][0]+x,this.ship[0][1]+y);
+            for (int i = 1; i < this.sides; i++) {
+                gl.glVertex2f(this.ship[i-1][0]+x,this.ship[i-1][1]+y);
+                gl.glVertex2f(this.ship[i][0]+x,this.ship[i][1]+y);
+            }        
+            gl.glEnd();
+        }
     }
 
     @Override
